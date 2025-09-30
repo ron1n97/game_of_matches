@@ -1,58 +1,53 @@
-import { StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Image, View } from "react-native";
 
 const imageSource = require("../assets/images/mathcstick.png");
 
-interface Layout {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-const Matchstick = ({ layout }) => {
-  // Получаем размер экрана
-  console.log(layout);
-  // console.log(x);
-  // console.log(y);
-  // console.log(width);
-  // console.log(height);
-  const compressionPercent = 0.3;
-  // Генерация случайных данных
+const Matchstick = (layout) => {
+  // Функция для получения случайного значения X с учетом маржи 10 пикселей
+  console.log(layout.layout);
   const getX = () => {
-    return layout.x + Math.random() * layout.width;
+    // Генерируем случайное значение от 0 до ширины родителя с учетом маржи
+    const randomX = Math.random() * (layout.width - 20); // Ширина - 10 пикселей с каждой стороны
+    return layout.x + 10 + randomX; // Добавляем начальное значение X и маржу 10 пикселей с левой стороны
   };
+
+  // Функция для получения случайного значения Y с учетом маржи 10 пикселей
   const getY = () => {
-    return layout.y + Math.random() * layout.height;
+    // Генерируем случайное значение от 0 до высоты родителя с учетом маржи
+    const randomY = Math.random() * (layout.layout.height - 20); // Высота - 10 пикселей с каждой стороны
+    console.log(layout.layout.height);
+    console.log(layout.layout.y);
+    return layout.layout.y + 10 + randomY; // Добавляем начальное значение Y и маржу 10 пикселей сверху
   };
+  console.log("Random X:", getX()); // Выведет случайное X внутри родителя с маржей
+  console.log("Random Y:", getY()); // Выведет случайное Y внутри родителя с маржей
 
-  const getSafeX = () => {
-    const x = getX();
-    return x > layout.x + layout.width ? layout.x + layout.width : x;
-  };
-
-  const getSafeY = () => {
-    const y = getY();
-    return y > layout.y + layout.height ? layout.y + layout.height : y;
-  };
   const getRotation = () => {
     return Math.random() * 360;
   };
 
   return (
-    <Image
-      source={imageSource}
-      style={[
-        styles.image,
-        {
-          left: getSafeX(),
-          top: getSafeY(),
-          transform: [
-            { scale: compressionPercent }, // Сжимаем на 50%
-            { rotate: `${getRotation()}deg` },
-          ],
-        },
-      ]}
-    />
+    <View
+      style={styles.container} // Получаем размер контейнера
+    >
+      {layout && (
+        <Image
+          source={imageSource}
+          style={[
+            styles.image,
+            {
+              left: getX(), // безопасное расположение в процентах от родителя
+              top: getY(),
+              transform: [
+                { scale: 0.15 }, // Сжимаем на 30%
+                { rotate: `${getRotation()}deg` },
+              ],
+            },
+          ]}
+        />
+      )}
+    </View>
   );
 };
 
@@ -61,10 +56,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    position: "relative",
+    position: "relative", // Обеспечиваем правильное позиционирование дочерних элементов
   },
   image: {
-    position: "absolute",
+    position: "absolute", // Для корректного позиционирования изображения
   },
 });
 

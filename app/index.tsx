@@ -33,6 +33,8 @@ export default function Index() {
         ...prevMatchsticks,
         <Matchstick layout={layout}></Matchstick>,
       ]);
+
+      console.log("Проверка лэйаута ", layout);
     }
   };
 
@@ -81,14 +83,7 @@ const styles = StyleSheet.create({
     width: width * 0.9, // 90% ширины экрана
     height: height * 0.67, // 2/3 высоты экрана
     backgroundColor: "skyblue", // Цвет фона для видимости
-    // justifyContent: "t", // Центрирование текста по вертикали
     borderRadius: 10, // Слегка скругленные углы
-    // backgroundColor: "black",
-    // color: "black",
-    // // backgroundColor: "#fed6bc",
-    // flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   buttonContainer: {
     flexDirection: "column",
